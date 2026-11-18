@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../template"
+		},
+		{
+			"name": "onkyo_avr",
+			"path": "."
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,21 @@
+#
+# Copyright (c) 2026 Nordic Semiconductor ASA
+#
+# SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+#
+
+config ONKYO_AVR_MANUFACTURER_CODE
+	hex "Manufacturer code of the Onkyo AVR control cluster"
+	default 0x1234
+	help
+	  Manufacturer code that identifies the vendor of the manufacturer
+	  specific Onkyo AVR control cluster (0xFC00) and of everything the
+	  cluster carries. Clients, such as a Home Assistant quirk or a
+	  Zigbee2MQTT converter, address the cluster and its attributes with
+	  this code, so they have to be configured with the same value.
+
+	  The default is a placeholder. Set it to the manufacturer code that
+	  the Connectivity Standards Alliance assigned to the vendor before
+	  shipping a product that is based on this sample.
+
+source "Kconfig.zephyr"

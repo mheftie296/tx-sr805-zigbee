@@ -1,0 +1,18 @@
+sample:
+  description: Zigbee controller for an Onkyo TX-SR805 AV receiver
+  name: Zigbee Onkyo AVR controller
+common:
+  tags:
+    - ci_build
+    - smoke
+    - sysbuild
+    - ci_samples_zigbee
+tests:
+  sample.zigbee.onkyo_avr:
+    sysbuild: true
+    build_only: true
+    integration_platforms:
+      - promicro_nrf52840/nrf52840
+    platform_allow:
+      - promicro_nrf52840/nrf52840
+      - promicro_nrf52840/nrf52840/uf2

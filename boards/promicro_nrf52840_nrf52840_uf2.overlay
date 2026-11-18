@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) 2026 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+ */
+
+#include "promicro_nrf52840_common.dtsi"
+
+/*
+ * Flash layout of the UF2 variant, as it is expected by the Adafruit nRF52
+ * bootloader on the Pro Micro nRF52840:
+ *
+ *   0x00000000 SoftDevice s140 v6   (152 kB)
+ *   0x00026000 Application          (776 kB)
+ *   0x000e8000 ZBOSS NVRAM          (32 kB)
+ *   0x000f0000 ZBOSS product config (4 kB)
+ *   0x000f1000 Storage              (12 kB)
+ *   0x000f4000 UF2 bootloader       (48 kB)
+ *
+ * Partition Manager is disabled, so ZBOSS needs the fixed partition nodes
+ * zboss_nvram and zboss_product_config in the devicetree, the same way as the
+ * nrf52840_partitions.dtsi layout used by the default board variant provides
+ * them. The board layout gives all flash up to 0x000f4000 to the application
+ * and the storage partition, which leaves no room for the ZBOSS partitions and
+ * does not fit the layout that file expects, so the application and storage
+ * partitions are resized here to make room.
+ *
+ * Unlike nrf52840_partitions.dtsi, the partitions below keep the
+ * fixed-partitions compatible of the board layout instead of switching to
+ * zephyr,mapped-partition. A mapped code partition disables the
+ * CONFIG_FLASH_LOAD_OFFSET and CONFIG_FLASH_LOAD_SIZE options, and the UF2
+ * conversion uses CONFIG_FLASH_LOAD_OFFSET as the load address of the image.
+ */
+
+/delete-node/ &code_partition;
+/delete-node/ &storage_partition;
+
+&flash0 {
+	partitions {
+		code_partition: partition@26000 {
+			label = "Application";
+			reg = <0x00026000 DT_SIZE_K(776)>;
+		};
+
+		zboss_nvram: partition@e8000 {
+			label = "zboss-nvram";
+			reg = <0x000e8000 DT_SIZE_K(32)>;
+		};
+
+		zboss_product_config: partition@f0000 {
+			label = "zboss-product-config";
+			reg = <0x000f0000 DT_SIZE_K(4)>;
+		};
+
+		storage_partition: partition@f1000 {
+			label = "Storage";
+			reg = <0x000f1000 DT_SIZE_K(12)>;
+		};
+	};
+};
