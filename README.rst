@@ -1,3 +1,5 @@
+This project connects an Onkyo TX-SR805 to Home Assistant over Zigbee using an nRF52840. It requires a MAX3232 for connecting to the DE-9 serial port on the back. This may not be necessary when connecting to the FPC serial port near the DE-9, but using that port has not been tested. Most of the code and the rest of this readme was written by Deepseek v4.1 Flash. The project targets the nRF Connect SDK 3.4.0 and was built using the VSCode extention.
+
 .. _zigbee_onkyo_avr_sample:
 
 Zigbee: Onkyo AVR controller
